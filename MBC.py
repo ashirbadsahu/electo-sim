@@ -41,6 +41,14 @@ MAX_PREFERENCES = 6
 # initialize candidate scores
 candidates = {candidate: 0 for candidate in  CANDIDATES}
 
+votes = [
+    {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F'},
+    {1: 'A', 2: 'D', 3: 'B', 4: 'I', 5: 'E', 6: 'G'},
+    {1: 'A', 2: 'H', 3: 'J', 4: 'G', 5: 'B', 6: 'I'},
+    {1: 'B', 2: 'C', 3: 'I'},
+    {1: 'B', 2: 'C', 3: 'I', 4: 'A', 5: 'B', 6: 'G'},
+]
+
 def validate_vote(vote):
     """
     Validate that no candidate appears more than once in the same voter's ranking.
@@ -86,7 +94,7 @@ def score_count(candidates):
     sorted_candidates = sorted(candidates.items(), key=lambda x: x[1], reverse= True)
     print("\nfinal scores: ")
     for candidate, score in sorted_candidates:
-        print(f"{candidate}: {score}")
+        print(f"{candidate}: {score: .2f}")
 
 def plot(candidates):
     x = list(candidates.keys())
@@ -96,13 +104,7 @@ def plot(candidates):
     plt.xlabel('Candidate Names')
     plt.ylabel('Score')
 
-votes = [
-    {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F'},
-    {1: 'A', 2: 'D', 3: 'B', 4: 'I', 5: 'E', 6: 'G'},
-    {1: 'A', 2: 'H', 3: 'J', 4: 'G', 5: 'B', 6: 'I'},
-    {1: 'B', 2: 'C', 3: 'I'},
-    {1: 'B', 2: 'C', 3: 'I', 4: 'A', 5: 'B', 6: 'G'},
-]
+
 
 def main():
     poll(votes, candidates)
