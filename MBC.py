@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 # In modified borda count(MBC), the voters rank the candidates as their preference number
 # The candidate with the highest score is the winner
 # While there is a limit on how many preferences one can have, which is usually 6.
@@ -86,6 +88,14 @@ def score_count(candidates):
     for candidate, score in sorted_candidates:
         print(f"{candidate}: {score}")
 
+def plot(candidates):
+    x = list(candidates.keys())
+    y = list(candidates.values())
+    plt.bar(x, y)
+    plt.title('Poll statistics')
+    plt.xlabel('Candidate Names')
+    plt.ylabel('Score')
+
 votes = [
     {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F'},
     {1: 'A', 2: 'D', 3: 'B', 4: 'I', 5: 'E', 6: 'G'},
@@ -97,6 +107,7 @@ votes = [
 def main():
     poll(votes, candidates)
     score_count(candidates)
+    plot(candidates)
 
 if __name__ == "__main__":
     main()
