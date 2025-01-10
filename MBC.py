@@ -55,11 +55,12 @@ def validate_vote(vote):
 
 def poll(votes, candidates):
     for i in range(len(votes)):
+        vote = votes[i]
+        
         if any(candidate not in CANDIDATES for candidate in vote.values()):
             print(f"Voter {i+1} voted for invalid candidates: {vote.values()}. Skipping...")
             continue
 
-        vote = votes[i]
         if not validate_vote(vote):
             print(f"Invalid vote detected from voter {i+1}: {vote}. Skipping...")
             continue
@@ -71,7 +72,7 @@ def poll(votes, candidates):
             print(f"Voter {i+1} submitted an empty vote. Skipping...")
             continue
             
-        for j, candidate in sorted(votes.items()): # Access the dictionary values
+        for j, candidate in sorted(vote.items()): # Access the dictionary values
             if candidate in candidates:
                 candidates[candidate] += nf * (MAX_PREFERENCES - j)
 
