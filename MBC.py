@@ -44,9 +44,11 @@ candidates = {candidate: 0 for candidate in  CANDIDATES}
 votes = [
     {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F'},
     {1: 'A', 2: 'D', 3: 'B', 4: 'I', 5: 'E', 6: 'G'},
-    {1: 'A', 2: 'H', 3: 'J', 4: 'G', 5: 'B', 6: 'I'},
-    {1: 'B', 2: 'C', 3: 'I'},
-    {1: 'B', 2: 'C', 3: 'I', 4: 'A', 5: 'B', 6: 'G'},
+    {1: 'J', 2: 'A', 3: 'J', 4: 'G', 5: 'B', 6: 'I'},
+    {1: 'D', 2: 'C', 3: 'I'},
+    {1: 'F', 2: 'C', 3: 'I', 4: 'A', 5: 'B', 6: 'G'},
+    {1: 'B', 2: 'A', 3: 'F', 4: 'E', 5: 'D', 6: 'H'},
+    {1: 'J', 2: 'G', 3: 'I', 4: 'A'},
 ]
 
 def validate_vote(vote):
@@ -84,7 +86,7 @@ def poll(votes, candidates):
             
         for j, candidate in sorted(vote.items()): # Access the dictionary values
             if candidate in candidates:
-                candidates[candidate] += nf * (MAX_PREFERENCES - j)
+                candidates[candidate] += nf * (MAX_PREFERENCES - j + 1)
 
 
 def score_count(candidates):
@@ -101,8 +103,9 @@ def plot(candidates):
     y = list(candidates.values())
     plt.bar(x, y)
     plt.title('Poll statistics')
-    plt.xlabel('Candidate Names')
+    plt.xlabel('Candidate Name')
     plt.ylabel('Score')
+    plt.show()
 
 
 
