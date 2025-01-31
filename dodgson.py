@@ -59,3 +59,53 @@ For C to become Dodgson's winner:
 
 Here A requires least number of swaps, so A is the Dodgson's winner.
 """
+
+# Function to calculate pairwise victory count
+def pairwise_wins(rankings, candidate1, candidate2):
+    """
+    Returns the number of people who prefer candidate1 over candidate2 in a head-to-head matchup.
+    """
+    count = 0
+    for group in rankings:
+        count += group.count(candidate1) > group.count(candidate2)
+    return count
+
+# Function to calculate the number of swaps needed to make a candidate win a head-to-head matchup
+def swaps_needed(rankings, winner, loser):
+    """
+    Calculate the minimum number of swaps required for 'winner' to win against 'loser'.
+    A swap is counted when voters' preferences need to be adjusted to flip the result of the matchup.
+    """
+    swaps = 0
+    for group in rankings:
+        if group.index(winner) > group.index(loser):
+            swaps += 1
+    return swaps
+
+def dodgson_winner(rankings, candidates):
+    """
+    Determines the Dodgson winner by calculating the minimum number of swaps required for each candidate to become the Condorcet winner.
+    """
+    swap_counts = {candidate: 0 for candidate in candidates}
+
+    # Check pairwise matchups
+    for i, candidate1 in enumerate(candidates):
+        for candidate2 in candidates[i+1:]:
+            win_count1 = pairwise_wins(rankings, candidate1, candidate2)
+            win_count2 = pairwise_wins(rankings, candidate2, candidate1)
+
+            if win_count1 < win_count2:
+                swap_counts[candidate1] += swaps_needed(rankings, candidate1, candidate2)
+            elif win_count1 > win_count2:
+                swap_counts[candidate2] += swaps_needed(rankings, candidate2, candidate1)
+    return min(swap_counts, key=swap_counts.get)
+
+# Example usage:
+rankings = [
+    ['A', 'B', 'C'],  # gr-1: A > B > C (6 people)
+    ['C', 'A', 'B'],  # gr-2: C > A > B (5 people)
+    ['B', 'C', 'A'],  # gr-3: B > C > A (4 people)
+]
+
+candidates = ['A', 'B', 'C']
+print(f"The Dodgson winner is: {dodgson_winner(rankings, candidates)}")
